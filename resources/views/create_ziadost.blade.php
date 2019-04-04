@@ -29,6 +29,7 @@
           </div>
           <div class="card-body">
             {!!Form::open(['action' => 'ZiadostController@store', 'method' => 'POST'])!!}
+
             <div class="d-flex">
               <h4 class="mr-2">1.1 Initiative title</h4>
               {{ Form::bsText('initiative_title') }}
@@ -47,6 +48,7 @@
               <h4 class="mr-2">Planned Completion Date</h4>
               {{ Form::bsdate('date_end', \Carbon\Carbon::now()) }}
             </div>
+
             {{Form::bsSubmit('Save', ['class' => 'btn btn-primary'])}}
             {!!Form::close() !!}
           </div>
@@ -59,9 +61,46 @@
       <div class="col-md-10">
         <div class="card">
           <div class="card-header">
-            Information about the applicant
+            <h3>Information about the applicant</h3>
           </div>
           <div class="card-body">
+            {!!Form::open(['action' => 'ZiadostController@store2', 'method' => 'POST'])!!}
+            <h4 class="my-2">2.1 Identity and contact details:</h4>
+            <div class="d-flex">
+              <h4 class="mr-2">Full legal name</h4>
+              {{ Form::bsText('full_legal_name') }}
+            </div>
+            <div class="d-flex">
+              <h4 class="mr-2">Legal form</h4>
+              {{ Form::bsText('legal_form1') }}
+            </div>
+            <div class="d-flex">
+              <h4 class="mr-2">Registartion number</h4>
+              {{ Form::bsText('registration_number') }}
+            </div>
+            <h4 class="mr-2 my-2">Statutory representative</h4>
+            <div class="d-flex">
+              <h5>Name and surname:</h5>
+              {{ Form::bsText('statutory_representative_name') }}
+            </div>
+            <div class="d-flex">
+              <h5>Street:</h5>
+              {{ Form::bsText('statutory_street') }}
+            </div>
+            <div class="d-flex">
+              <h5>Postal code:</h5>
+              {{ Form::bsText('statutory_postal_code') }}
+            </div>
+            <div class="d-flex">
+              <h5>Town</h5>
+              {{ Form::bsText('statutory_town') }}
+            </div>
+            <div class="d-flex">
+              <h5>Country:</h5>
+              {{ Form::bsText('statutory_country') }}
+            </div>
+            {{Form::bsSubmit('Save', ['class' => 'btn btn-primary'])}}
+            {!!Form::close() !!}
 
           </div>
 

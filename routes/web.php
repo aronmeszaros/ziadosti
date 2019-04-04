@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('ziadost', 'ZiadostController');
+
+Route::post('ziadost2', 'ZiadostController@store2');

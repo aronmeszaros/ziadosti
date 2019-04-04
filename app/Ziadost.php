@@ -10,4 +10,8 @@ class Ziadost extends Model
     public function user(){
       return $this->belongsTo('App\User');
     }
+
+    public function applicant(){
+      return $this->hasOne('App\Applicant');
+    }
 }
