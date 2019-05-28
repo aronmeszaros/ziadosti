@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ziadost;
 use App\Person;
-use App\Applicant;
+use App\FormTemplate;
 
 class ZiadostController extends Controller
 {
@@ -32,7 +32,9 @@ class ZiadostController extends Controller
      */
     public function create()
     {
-        return view('create_ziadost');
+        $templates = FormTemplate::all();
+
+        return view('create_ziadost')->with('templates', $templates);
     }
 
     /**
@@ -45,42 +47,14 @@ class ZiadostController extends Controller
     {
         $ziadost = new Ziadost;
         $ziadost->user_id = auth()->user()->id;
-        $ziadost->initiative_title = $request->input('initiative_title');
-        $ziadost->call = $request->input('call');
-        $ziadost->period = $request->input('period');
-        $ziadost->date_start = $request->input('date_start');
-        $ziadost->date_end = $request->input('date_end');
+        $ziadost->title = $request->input('title');
+        $ziadost->template_id = $request->input('template_id');
 
         $ziadost->save();
 
-        $applicant = new Applicant;
-        $statutory_representative = new Person;
-        $applicant->ziadost_id = $ziadost->id;
-
-        //$applicant->contact_person_id
-        //$applicant->partner_description
-        //$applicant->num_participants
-        //$applicant->potential_partner_id
-        //$applicant->partner_contact_person_id
-        //$applicant->partner_communication
-        //$applicant->partner_involvement
-        $applicant->save();
-
-        $applicant_id = $applicant->id;
-
-        $statutory_representative->applicant_id = $applicant_id;
-        $statutory_representative->name = 'full name here';
-        $statutory_representative->save();
-
-        $statutory_representative_id = $statutory_representative->id;
-
-        $applicant->statutory_representative_id = $statutory_representative_id;
-
-        $applicant->save();
-
-        return view('edit_ziadost')->with('ziadost', $ziadost)->with('success', 'Saved');
+        return redirect('ziadost/'.$ziadost->id.'/edit');
     }
-
+/*
     public function store2(Request $request)
     {
       $ziadost = Ziadost::find($request->input('id'));
@@ -109,6 +83,7 @@ class ZiadostController extends Controller
 
       return view('edit_ziadost')->with('ziadost', $ziadost)->with('success2', 'Saved');
     }
+    */
 
     /**
      * Display the specified resource.
@@ -130,7 +105,8 @@ class ZiadostController extends Controller
     public function edit($id)
     {
       $ziadost = Ziadost::find($id);
-      return view('edit_ziadost')->with('ziadost', $ziadost);
+      $formtemplate = FormTemplate::find($ziadost->template_id);
+      return view('edit_ziadost')->with('ziadost', $ziadost)->with('formtemplate', $formtemplate);
     }
 
     /**
@@ -144,7 +120,7 @@ class ZiadostController extends Controller
     {
       $ziadost = Ziadost::find($id);
       $ziadost->user_id = auth()->user()->id;
-      $ziadost->initiative_title = $request->input('initiative_title');
+      $ziadost->title = $request->input('title');
       $ziadost->call = $request->input('call');
       $ziadost->period = $request->input('period');
       $ziadost->date_start = $request->input('date_start');

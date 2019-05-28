@@ -29,7 +29,7 @@
       <div class="col-md-8">
         <div class="card my-2">
           <div class="card-header">
-            {{$ziadost->initiative_title}}
+            {{$ziadost->title}}
 
           </div>
           <div class="card-body">

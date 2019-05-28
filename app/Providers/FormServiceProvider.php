@@ -30,6 +30,7 @@ class FormServiceProvider extends ServiceProvider
       Form::component('hidden', 'components.form.hidden', ['name', 'value' => null, 'attributes' => []]);
       Form::component('bsdate', 'components.form.date', ['name', 'value', 'attributes' => []]);
       Form::component('bsdropdown', 'components.form.dropdown', ['name', 'value'=> null, 'attributes' => []]);
+      Form::component('bsnumber', 'components.form.number', ['name', 'value' => null, 'attributes' => []]);
 
     }
 }

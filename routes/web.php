@@ -32,3 +32,5 @@ Route::get('/admin_pane', 'FormTemplateController@index')->name('admin_pane');
 //Template and components
 Route::resource('formtemplate', 'FormTemplateController');
 Route::resource('formcomponents', 'FormComponentsController');
+//Data
+Route::resource('data', 'DataController');

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Ziadost;
 use App\FormTemplate;
+use App\FormComponents;
+use App\Data;
 
-class FormTemplateController extends Controller
+
+class DataController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +18,7 @@ class FormTemplateController extends Controller
      */
     public function index()
     {
-      //List of templates will be displayed here
-      //together with the option to create a new One
-      $templates = FormTemplate::all();
-
-      return view('admin_pane')->with('templates', $templates);
+        //
     }
 
     /**
@@ -28,7 +28,7 @@ class FormTemplateController extends Controller
      */
     public function create()
     {
-        return view('create_formtemplate');
+        //
     }
 
     /**
@@ -39,16 +39,23 @@ class FormTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        $formtemplate = new FormTemplate;
-        $formtemplate->title = $request->title;
-        $formtemplate->subtitle = $request->subtitle;
-        $formtemplate->intro = $request->intro;
-        $formtemplate->description = $request->description;
-        $formtemplate->category = $request->category;
+      $ziadost = Ziadost::find($request->input('ziadost_id'));
+      $formtemplate = FormTemplate::find($ziadost->template_id);
+      $components = $formtemplate->formcomponents->all();
 
-        $formtemplate->save();
+      foreach ($components as $component) {
+        $data = new Data;
+        $data->type = $component->type;
+        $data->name = $component->name;
+        $data->caption = $component->caption;
+        $data->values = $component->values;
+        $data->various_data = $request->input($component->name);
+        $data->ziadost_id = $ziadost->id;
+        $data->save();
 
-        return redirect('/formtemplate/'.$formtemplate->id);
+      }
+
+        return redirect('/data/'.$ziadost->id);
     }
 
     /**
@@ -59,9 +66,11 @@ class FormTemplateController extends Controller
      */
     public function show($id)
     {
-        $formtemplate = FormTemplate::find($id);
+      $ziadost = Ziadost::find($id);
+      $formtemplate = FormTemplate::find($ziadost->template_id);
+      $data = $ziadost->data;
 
-        return view('add_components')->with('formtemplate', $formtemplate);
+      return view('show_data')->with('formtemplate', $formtemplate)->with('data',$data);
     }
 
     /**
@@ -72,7 +81,7 @@ class FormTemplateController extends Controller
      */
     public function edit($id)
     {
-        return redirect('/formcomponents/'.$id);
+        //
     }
 
     /**
@@ -84,7 +93,7 @@ class FormTemplateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      //
     }
 
     /**
@@ -95,10 +104,6 @@ class FormTemplateController extends Controller
      */
     public function destroy($id)
     {
-      $template = FormTemplate::find($id);
-
-      $template->delete();
-
-      return redirect('/admin_pane');
+        //
     }
 }

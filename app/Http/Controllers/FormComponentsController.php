@@ -40,6 +40,12 @@ class FormComponentsController extends Controller
       $component->type = $request->type;
       $component->name = $request->name;
       $component->caption = $request->caption;
+      if ($request->type == 'dropdown') {
+        $component->values = $request->values;
+      }
+      //$component->rows = $request->rows;
+      //$component->cols = $request->cols;
+      //$component->onclick = $request->onclick;
       $component->form_template_id = $request->form_template_id;
 
       $component->save();
@@ -56,7 +62,7 @@ class FormComponentsController extends Controller
     public function show($id)
     {
       $formtemplate = FormTemplate::find($id);
-      $components = $formtemplate->components;
+      $components = $formtemplate->formcomponents;
 
       return view('add_components')->with('components', $components)->with('formtemplate', $formtemplate);
     }

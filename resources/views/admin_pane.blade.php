@@ -35,7 +35,11 @@
             <p class="card-text">{{$template->subtitle}}</p>
             <p class="card-text">{{$template->description}}</p>
             <p class="card-text"><b>{{$template->category}}</b></p>
-            <a href="" class="btn btn-primary">Edit</a>
+            <a href="{{ url('/') }}/formtemplate/{{$template->id}}/edit" class="btn btn-primary">Edit</a>
+            {!!Form::open(['action' => ['FormTemplateController@destroy', $template->id], 'method' => 'POST', 'class' => 'float-right', 'onsubmit' => 'return confirm("Do you really want to delete?")'])!!}
+              {{Form::hidden('_method', 'DELETE')}}
+              {{Form::bsSubmit('Delete', ['class' => 'float-right btn btn-danger'])}}
+            {!!Form::close() !!}
 
           </div>
 
